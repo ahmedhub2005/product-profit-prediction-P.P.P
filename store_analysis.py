@@ -4,7 +4,7 @@ import joblib
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-
+import os
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
 from sklearn.pipeline import Pipeline
@@ -14,7 +14,10 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.preprocessing import StandardScaler , OneHotEncoder 
 from sklearn.compose import ColumnTransformer
-
+import seaborn as sns
+# ---------------------------
+# Load data
+# ---------------------------
 data = pd.read_csv(r"Sample - Superstore.csv", encoding='latin1')
 # ---------------------------
 # Data Preprocessing
@@ -78,9 +81,13 @@ preprocessor = ColumnTransformer([
     ("num", numeric_transformer, numeric_features),
     ("cat", categorical_transformer, categorical_features)
 ])
-import matplotlib.pyplot as plt
-import seaborn as sns
-from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
+
+# ---------------------------
+# Safe MLflow setup
+# ---------------------------
+os.makedirs("mlruns", exist_ok=True)
+mlflow.set_tracking_uri("file:///" + os.path.abspath("mlruns"))
+mlflow.set_experiment("superstore-regression")
 
 # ---------------------------
 # Models to test
@@ -96,13 +103,11 @@ models = {
 results = []
 
 # ---------------------------
-# Train + Evaluate with MLflow
+# Train + Evaluate
 # ---------------------------
 x_train, x_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42
 )
-
-mlflow.set_experiment("superstore-regression")  # اسم التجربة
 
 for name, model in models.items():
     with mlflow.start_run(run_name=name):
@@ -124,8 +129,8 @@ for name, model in models.items():
         mlflow.log_metric("mae", mae)
         mlflow.log_metric("rmse", rmse)
 
-        # Log model
-        mlflow.sklearn.log_model(pipe, "model")
+        # Log model safely
+        mlflow.sklearn.log_model(pipe, artifact_path="model")
 
         results.append({
             "Model": name,
@@ -144,7 +149,7 @@ results_data = pd.DataFrame(results)
 print(results_data.sort_values(by="Test R2", ascending=False))
 
 # ---------------------------
-# Save Best Model (also in MLflow)
+# Save Best Model
 # ---------------------------
 best_model_name = results_data.sort_values(by="Test R2", ascending=False).iloc[0]["Model"]
 best_model = models[best_model_name]
@@ -154,12 +159,12 @@ final_pipeline = Pipeline(steps=[("preprocessor", preprocessor),
 final_pipeline.fit(X, y)
 
 joblib.dump(final_pipeline, "super_store_pipeline_new.pkl")
-mlflow.sklearn.log_model(final_pipeline, "best_model")
+mlflow.sklearn.log_model(final_pipeline, artifact_path="best_model")
 
 print(f"🏆 Best model saved: {best_model_name}")
 
 # ---------------------------
-# Visualization: Metrics Chart
+# Visualizations
 # ---------------------------
 plt.figure(figsize=(10,6))
 sns.barplot(x="Model", y="Test R2", data=results_data)
