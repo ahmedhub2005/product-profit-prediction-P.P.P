@@ -2,9 +2,9 @@ name: CI/CD Superstore ML
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "dev" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "dev" ]
 
 jobs:
   build-test-train:
@@ -29,8 +29,7 @@ jobs:
         run: pytest tests/ --maxfail=1 --disable-warnings -q
 
       - name: Run Training + Generate Report
-        run: |
-          python train.py
+        run: python train.py
 
       - name: Upload model artifact
         uses: actions/upload-artifact@v3
@@ -47,6 +46,10 @@ jobs:
             r2_comparison.png
             rmse_comparison.png
 
+      - name: Install GitHub CLI
+        if: github.event_name == 'pull_request'
+        run: sudo apt-get install -y gh
+
       - name: Comment Report in PR
         if: github.event_name == 'pull_request'
         env:
@@ -54,7 +57,3 @@ jobs:
         run: |
           gh pr comment ${{ github.event.pull_request.number }} --body-file report.md
 
-
-        with:
-          name: superstore-best-model
-          path: super_store_pipeline_new.pkl
