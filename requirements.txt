@@ -7,4 +7,5 @@ seaborn
 plotly
 python-dateutil
 pytest
-mlflow==2.6.1
+mlflow>=2.5.1,<2.6.0
+
