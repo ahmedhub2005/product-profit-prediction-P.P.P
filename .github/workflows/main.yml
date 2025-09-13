@@ -2,7 +2,7 @@ name: CI/CD Superstore ML - Streamlit
 
 on:
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "dev" ]
     paths-ignore:
       - 'README.md'
 
@@ -25,9 +25,12 @@ jobs:
           pip install -r requirements.txt
           pip install streamlit seaborn matplotlib tabulate
 
+      - name: Run Tests
+        run: pytest tests/ --maxfail=1 --disable-warnings -q
+
       - name: Run Streamlit app
         run: |
-          streamlit run store.py --headless --server.port 8501 --server.address 0.0.0.0
+          streamlit run store.py --server.headless true --server.port 8501 --server.address 0.0.0.0
 
       - name: Upload Report + Charts
         uses: actions/upload-artifact@v4
@@ -37,5 +40,6 @@ jobs:
             report.md
             r2_comparison.png
             rmse_comparison.png
+
 
 
