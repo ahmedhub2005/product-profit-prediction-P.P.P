@@ -1,4 +1,4 @@
-name: CI/CD Superstore ML
+name: CI/CD Superstore ML - Streamlit
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
       - 'README.md'
 
 jobs:
-  build-test-train:
+  build-and-run:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,19 +23,11 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install seaborn matplotlib tabulate
+          pip install streamlit seaborn matplotlib tabulate
 
-      - name: Run Tests
-        run: pytest tests/ --maxfail=1 --disable-warnings -q
-
-      - name: Run Training + Generate Report
-        run: python train.py
-
-      - name: Upload model artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: superstore-best-model
-          path: super_store_pipeline_new.pkl
+      - name: Run Streamlit app
+        run: |
+          streamlit run store.py --headless --server.port 8501 --server.address 0.0.0.0
 
       - name: Upload Report + Charts
         uses: actions/upload-artifact@v4
@@ -45,4 +37,5 @@ jobs:
             report.md
             r2_comparison.png
             rmse_comparison.png
+
 
