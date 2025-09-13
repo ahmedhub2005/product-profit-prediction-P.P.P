@@ -1,10 +1,10 @@
 name: CI/CD Superstore ML
 
 on:
-  push:
-    branches: [ "main", "dev" ]
   pull_request:
-    branches: [ "main", "dev" ]
+    branches: [ "main" ]   # يشتغل فقط لو الـ PR متوجه لـ main
+    paths-ignore:
+      - 'README.md'        # اختياري: تجاهل التعديلات البسيطة
 
 jobs:
   build-test-train:
@@ -46,14 +46,4 @@ jobs:
             r2_comparison.png
             rmse_comparison.png
 
-      - name: Install GitHub CLI
-        if: github.event_name == 'pull_request'
-        run: sudo apt-get install -y gh
-
-      - name: Comment Report in PR
-        if: github.event_name == 'pull_request'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh pr comment ${{ github.event.pull_request.number }} --body-file report.md
 
