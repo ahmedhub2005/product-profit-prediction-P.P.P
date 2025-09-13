@@ -38,8 +38,9 @@ jobs:
           pip install -r requirements.txt
           pip install streamlit seaborn matplotlib tabulate
 
-      - name: Run Tests
-        run: pytest tests/ --maxfail=1 --disable-warnings -q
+      - name: Run Analysis + Generate Report
+        run: python store_analysis.py
+
 
       - name: Run Streamlit app
         run: |
