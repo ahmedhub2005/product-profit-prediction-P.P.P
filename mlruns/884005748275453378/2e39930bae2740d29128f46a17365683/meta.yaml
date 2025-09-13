@@ -1,0 +1,14 @@
+artifact_uri: file:///d:/python%20for%20data%20science/super-market/mlruns/884005748275453378/2e39930bae2740d29128f46a17365683/artifacts
+end_time: 1757798853246
+entry_point_name: ''
+experiment_id: '884005748275453378'
+lifecycle_stage: active
+run_id: 2e39930bae2740d29128f46a17365683
+run_name: GradientBoostingRegressor
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1757798843715
+status: 3
+tags: []
+user_id: moham

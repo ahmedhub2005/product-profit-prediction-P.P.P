@@ -1,0 +1,14 @@
+artifact_uri: file:///d:/python%20for%20data%20science/super-market/mlruns/884005748275453378/f562d4c629da45e0be9d70efb4e19c87/artifacts
+end_time: 1757798861975
+entry_point_name: ''
+experiment_id: '884005748275453378'
+lifecycle_stage: active
+run_id: f562d4c629da45e0be9d70efb4e19c87
+run_name: LinearRegression
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1757798853259
+status: 3
+tags: []
+user_id: moham
