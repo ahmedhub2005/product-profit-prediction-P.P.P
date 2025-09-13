@@ -14,14 +14,27 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
+      # Cache pip packages لتقليل وقت التثبيت
+      - name: Cache pip
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
 
-      - name: Install dependencies
+      - name: Install heavy dependencies first
         run: |
           python -m pip install --upgrade pip
+          pip install numpy pandas scikit-learn
+
+      - name: Install remaining dependencies
+        run: |
           pip install -r requirements.txt
           pip install streamlit seaborn matplotlib tabulate
 
