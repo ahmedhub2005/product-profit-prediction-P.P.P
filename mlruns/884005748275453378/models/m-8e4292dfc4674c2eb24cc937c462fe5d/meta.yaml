@@ -1,0 +1,10 @@
+artifact_location: file:///d:/python%20for%20data%20science/super-market/mlruns/884005748275453378/models/m-8e4292dfc4674c2eb24cc937c462fe5d/artifacts
+creation_timestamp: 1757798828813
+experiment_id: '884005748275453378'
+last_updated_timestamp: 1757798843680
+model_id: m-8e4292dfc4674c2eb24cc937c462fe5d
+model_type: null
+name: model
+source_run_id: e47aa89daf49433c8e2fb5cfe9fbe880
+status: 2
+status_message: null

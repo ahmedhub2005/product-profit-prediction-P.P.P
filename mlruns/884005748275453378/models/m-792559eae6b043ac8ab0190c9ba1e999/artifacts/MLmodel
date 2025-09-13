@@ -1,0 +1,22 @@
+artifact_path: file:///d:/python%20for%20data%20science/super-market/mlruns/884005748275453378/models/m-792559eae6b043ac8ab0190c9ba1e999/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.13.5
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.6.1
+mlflow_version: 3.3.2
+model_id: m-792559eae6b043ac8ab0190c9ba1e999
+model_size_bytes: 1074091
+model_uuid: m-792559eae6b043ac8ab0190c9ba1e999
+prompts: null
+run_id: de81e3d7ef9241ad808ae61e89b26992
+utc_time_created: '2025-09-13 21:27:44.303471'

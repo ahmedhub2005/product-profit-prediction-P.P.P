@@ -1,0 +1,14 @@
+artifact_uri: file:///d:/python%20for%20data%20science/super-market/mlruns/884005748275453378/f86db67b7fc3425dbbedf0f2024b3e3d/artifacts
+end_time: 1757798882178
+entry_point_name: ''
+experiment_id: '884005748275453378'
+lifecycle_stage: active
+run_id: f86db67b7fc3425dbbedf0f2024b3e3d
+run_name: KNeighborsRegressor
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1757798871374
+status: 3
+tags: []
+user_id: moham

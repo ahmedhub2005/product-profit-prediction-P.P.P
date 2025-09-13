@@ -1,0 +1,14 @@
+artifact_uri: file:///d:/python%20for%20data%20science/super-market/mlruns/884005748275453378/e47aa89daf49433c8e2fb5cfe9fbe880/artifacts
+end_time: 1757798843705
+entry_point_name: ''
+experiment_id: '884005748275453378'
+lifecycle_stage: active
+run_id: e47aa89daf49433c8e2fb5cfe9fbe880
+run_name: RandomForestRegressor
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1757798736186
+status: 3
+tags: []
+user_id: moham
