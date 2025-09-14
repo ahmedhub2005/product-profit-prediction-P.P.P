@@ -170,6 +170,13 @@ mlflow.sklearn.log_model(final_pipeline, artifact_path="best_model",
 
 print(f"🏆 Best model saved: {best_model_name}")
 
+import os
+
+# ---------------------------
+# Create artifacts folder
+# ---------------------------
+os.makedirs("artifacts", exist_ok=True)
+
 # ---------------------------
 # Visualizations
 # ---------------------------
@@ -178,22 +185,23 @@ sns.barplot(x="Model", y="Test R2", data=results_data)
 plt.title("📊 Test R2 Comparison Between Models")
 plt.xticks(rotation=45)
 plt.tight_layout()
-plt.savefig("r2_comparison.png")
+plt.savefig("artifacts/r2_comparison.png")
 
 plt.figure(figsize=(10,6))
 sns.barplot(x="Model", y="RMSE", data=results_data)
 plt.title("📊 RMSE Comparison Between Models")
 plt.xticks(rotation=45)
 plt.tight_layout()
-plt.savefig("rmse_comparison.png")
+plt.savefig("artifacts/rmse_comparison.png")
 
 # ---------------------------
 # Save Report
 # ---------------------------
-with open("report.md", "w", encoding="utf-8") as f:
+with open("artifacts/report.md", "w", encoding="utf-8") as f:
     f.write("## 📊 Model Training Report\n\n")
     f.write(results_data.to_markdown(index=False))
     f.write("\n\n### R2 Comparison\n")
     f.write("![](./r2_comparison.png)\n\n")
     f.write("### RMSE Comparison\n")
     f.write("![](./rmse_comparison.png)\n")
+
