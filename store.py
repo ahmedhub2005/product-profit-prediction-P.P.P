@@ -2,6 +2,7 @@
 # super_store_app.py
 # ----------------------------
 import streamlit as st
+st.set_option('browser.gatherUsageStats', False)
 import pandas as pd
 import numpy as np
 import joblib
