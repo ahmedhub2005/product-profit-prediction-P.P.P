@@ -43,8 +43,9 @@ jobs:
 
 
       - name: Run Streamlit app
-        run: |
-          streamlit run store.py --server.headless true --server.port 8501 --server.address 0.0.0.0
+        run: 
+         streamlit run store.py --server.headless true --server.port 8501 --server.address 0.0.0.0
+
 
       - name: Upload Report + Charts
         uses: actions/upload-artifact@v4
