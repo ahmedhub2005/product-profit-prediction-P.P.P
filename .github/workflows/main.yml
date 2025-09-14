@@ -46,30 +46,26 @@ jobs:
         with:
           name: superstore-report
           path: |
-            report.md
-            r2_comparison.png
-            rmse_comparison.png
+            artifacts/report.md
+            artifacts/r2_comparison.png
+            artifacts/rmse_comparison.png
 
-      - name: Send Report via Email
+      - name: Send report by email
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
           server_port: 465
           username: ${{ secrets.MAIL_USERNAME }}
           password: ${{ secrets.MAIL_PASSWORD }}
-          subject: "Superstore ML Report"
-          to: "your_email@gmail.com"
-          from: "GitHub Actions <your_email@gmail.com>"
-          body: |
-            Hi Ahmed 👋,
-
-            The latest ML run has finished.  
-            Please find the attached report and charts.
-
+          subject: "Superstore Report"
+          to: your-email@gmail.com
+          from: ${{ secrets.MAIL_USERNAME }}
+          secure: true
           attachments: |
-            report.md
-            r2_comparison.png
-            rmse_comparison.png
+            artifacts/report.md
+            artifacts/r2_comparison.png
+            artifacts/rmse_comparison.png
+
 
 
 
