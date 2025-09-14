@@ -86,7 +86,7 @@ preprocessor = ColumnTransformer([
 # Safe MLflow setup
 # ---------------------------
 os.makedirs("mlruns", exist_ok=True)
-mlflow.set_tracking_uri("file:///" + os.path.abspath("mlruns"))
+mlflow.set_tracking_uri("file:///tmp/mlruns")  # مسار ثابت وآمن للRunner
 mlflow.set_experiment("superstore-regression")
 
 # ---------------------------
@@ -105,9 +105,7 @@ results = []
 # ---------------------------
 # Train + Evaluate
 # ---------------------------
-x_train, x_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
-)
+x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 for name, model in models.items():
     with mlflow.start_run(run_name=name):
@@ -129,9 +127,14 @@ for name, model in models.items():
         mlflow.log_metric("mae", mae)
         mlflow.log_metric("rmse", rmse)
 
-        # Log model safely
-        mlflow.set_tracking_uri("file:///tmp/mlruns")  # مثال لمسار مؤقت
-        mlflow.sklearn.log_model(pipe, artifact_path="model")
+        # Log model with signature
+        signature = infer_signature(x_train, pipe.predict(x_train))
+        mlflow.sklearn.log_model(
+            pipe,
+            artifact_path="model",
+            signature=signature,
+            input_example=x_train.head(3)
+        )
 
         results.append({
             "Model": name,
@@ -160,7 +163,9 @@ final_pipeline = Pipeline(steps=[("preprocessor", preprocessor),
 final_pipeline.fit(X, y)
 
 joblib.dump(final_pipeline, "super_store_pipeline_new.pkl")
-mlflow.sklearn.log_model(final_pipeline, artifact_path="best_model")
+mlflow.sklearn.log_model(final_pipeline, artifact_path="best_model",
+                         signature=infer_signature(X, final_pipeline.predict(X)),
+                         input_example=X.head(3))
 
 print(f"🏆 Best model saved: {best_model_name}")
 
