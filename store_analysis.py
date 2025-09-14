@@ -130,8 +130,8 @@ for name, model in models.items():
         mlflow.log_metric("rmse", rmse)
 
         # Log model safely
-       mlflow.set_tracking_uri("file:///tmp/mlruns")  # مثال لمسار مؤقت
-       mlflow.sklearn.log_model(pipe, artifact_path="model")
+        mlflow.set_tracking_uri("file:///tmp/mlruns")  # مثال لمسار مؤقت
+        mlflow.sklearn.log_model(pipe, artifact_path="model")
 
         results.append({
             "Model": name,
