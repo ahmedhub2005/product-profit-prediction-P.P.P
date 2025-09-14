@@ -41,12 +41,6 @@ jobs:
       - name: Run Analysis + Generate Report
         run: python store_analysis.py
 
-
-      - name: Run Streamlit app
-        run: 
-         streamlit run store.py --server.headless true --server.port 8501 --server.address 0.0.0.0
-
-
       - name: Upload Report + Charts
         uses: actions/upload-artifact@v4
         with:
@@ -55,6 +49,7 @@ jobs:
             report.md
             r2_comparison.png
             rmse_comparison.png
+
 
 
 
