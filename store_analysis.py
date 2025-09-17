@@ -94,10 +94,10 @@ mlflow.set_experiment("superstore-regression")
 # Models to test
 # ---------------------------
 models = {
-    "RandomForestRegressor": RandomForestRegressor(random_state=42 , max_depth=20),
-    "GradientBoostingRegressor": GradientBoostingRegressor(random_state=42),
+    "RandomForestRegressor": RandomForestRegressor(random_state=45 , max_depth=20),
+    "GradientBoostingRegressor": GradientBoostingRegressor(random_state=45),
     "LinearRegression": LinearRegression(),
-    "DecisionTreeRegressor": DecisionTreeRegressor(random_state=42),
+    "DecisionTreeRegressor": DecisionTreeRegressor(random_state=45),
     "KNeighborsRegressor": KNeighborsRegressor()
 }
 
