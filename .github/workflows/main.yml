@@ -1,0 +1,69 @@
+name: CI/CD Superstore ML - Streamlit
+
+on:
+  pull_request:
+    branches: [ "main", "dev" ]
+    paths-ignore:
+      - 'README.md'
+
+permissions:
+  contents: write
+  pull-requests: write   
+
+jobs:
+  build-and-run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Cache pip
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy pandas scikit-learn seaborn matplotlib tabulate
+          pip install -r requirements.txt
+
+      - name: Run Analysis + Generate Report
+        run: python store_analysis.py
+
+      - name: Upload Report + Charts
+        uses: actions/upload-artifact@v4
+        with:
+          name: superstore-report
+          path: artifacts/
+
+      - name: Post Report as PR Comment
+        uses: iterative/setup-cml@v1
+      - run: |
+          echo "## 📊 Model Training Report" > cml_report.md
+          cat artifacts/report.md >> cml_report.md
+
+          echo "### 🔹 R2 Comparison" >> cml_report.md
+          echo "![](artifacts/r2_comparison.png)" >> cml_report.md
+
+          echo "### 🔹 RMSE Comparison" >> cml_report.md
+          echo "![](artifacts/rmse_comparison.png)" >> cml_report.md
+
+          cml comment create cml_report.md
+        env:
+          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+
+
+
+
